@@ -39,7 +39,31 @@ router.post('/guardar', (req, res) => {
     res.status(201).json({ success: true, voluntario });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
-  }1723415418
+  }
+});
+
+// Editar un voluntario (solo si pertenece a la IP solicitante)
+router.put('/editar/:id', (req, res) => {
+  try {
+    const voluntario = iguanaModel.getById(req.params.id);
+    if (!voluntario) {
+      return res.status(404).json({ success: false, error: 'Voluntario no encontrado.' });
+    }
+    if (voluntario.ipCreador !== req.ip) {
+      return res.status(403).json({ success: false, error: 'No puedes editar un registro que no te pertenece.' });
+    }
+    iguanaModel.validateFields(req.body);
+    const actualizado = iguanaModel.update(req.params.id, {
+      nombres: req.body.nombres,
+      apellidos: req.body.apellidos,
+      cedula: req.body.cedula,
+      direccion: req.body.direccion,
+      imagenUrl: req.body.imagenUrl || voluntario.imagenUrl,
+    });
+    res.json({ success: true, voluntario: actualizado });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
 });
 
 // Eliminar un voluntario (solo si pertenece a la IP solicitante)

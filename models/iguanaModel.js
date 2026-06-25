@@ -6,6 +6,27 @@ const DATA_PATH = path.join(__dirname, '..', 'data', 'iguanas.json');
 const DEFAULT_IMAGE_URL = 'https://i.pinimg.com/736x/a6/d9/0c/a6d90c5d18a7f747daa98a818aced86d.jpg';
 const MAX_PER_IP = 3;
 
+// Valida los campos del formulario (obligatorios, formato y limites)
+function validateFields(data) {
+  const campos = [
+    { field: 'nombres', max: 50, pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, msg: 'solo letras' },
+    { field: 'apellidos', max: 50, pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, msg: 'solo letras' },
+    { field: 'direccion', max: 100, pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,#.-]+$/, msg: 'caracteres no validos' },
+  ];
+  for (const { field, max, pattern, msg } of campos) {
+    const value = data[field];
+    if (!value || !String(value).trim()) {
+      throw new Error(`El campo ${field} no puede estar vacio.`);
+    }
+    if (String(value).trim().length > max) {
+      throw new Error(`El campo ${field} excede el maximo de ${max} caracteres.`);
+    }
+    if (!pattern.test(String(value).trim())) {
+      throw new Error(`El campo ${field} permite ${msg}.`);
+    }
+  }
+}
+
 // Valida una cedula ecuatoriana usando el algoritmo Modulo 10
 function validateCedula(value) {
   const cedula = String(value);
@@ -76,6 +97,7 @@ function countByIp(ip) {
 
 // Crea un nuevo voluntario con los campos de la estructura base
 function create(data) {
+  validateFields(data);
   validateCedula(data.cedula);
   if (countByIp(data.ipCreador) >= MAX_PER_IP) {
     throw new Error(`Limite de ${MAX_PER_IP} registros por IP alcanzado.`);
@@ -121,6 +143,7 @@ module.exports = {
   DEFAULT_IMAGE_URL,
   MAX_PER_IP,
   validateCedula,
+  validateFields,
   countByIp,
   getAll,
   getById,
