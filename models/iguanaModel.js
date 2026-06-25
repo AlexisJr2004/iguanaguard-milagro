@@ -4,6 +4,30 @@ const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'iguanas.json');
 
+// Valida una cedula ecuatoriana usando el algoritmo Modulo 10
+function validateCedula(value) {
+  const cedula = String(value);
+  if (!/^\d+$/.test(cedula)) {
+    throw new Error('La cedula debe contener solo numeros.');
+  }
+  if (cedula.length !== 10) {
+    throw new Error('Cantidad de digitos incorrecta.');
+  }
+  const coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2];
+  let total = 0;
+  for (let i = 0; i < 9; i++) {
+    let producto = parseInt(cedula[i], 10) * coeficientes[i];
+    if (producto > 9) {
+      producto -= 9;
+    }
+    total += producto;
+  }
+  const digitoVerificador = (total * 9) % 10;
+  if (digitoVerificador !== parseInt(cedula[9], 10)) {
+    throw new Error('La cedula no es valida.');
+  }
+}
+
 // Estructura de campos requeridos para cada voluntario
 const VOLUNTARIO_FIELDS = [
   'id',
@@ -44,6 +68,7 @@ function getById(id) {
 
 // Crea un nuevo voluntario con los campos de la estructura base
 function create(data) {
+  validateCedula(data.cedula);
   const voluntarios = readData();
   const nuevo = {
     id: data.id,
@@ -82,6 +107,7 @@ function remove(id) {
 
 module.exports = {
   VOLUNTARIO_FIELDS,
+  validateCedula,
   getAll,
   getById,
   create,
