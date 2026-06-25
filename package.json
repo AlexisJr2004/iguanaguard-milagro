@@ -1,0 +1,17 @@
+{
+  "name": "iguanaguard-milagro",
+  "version": "1.0.0",
+  "description": "Sistema de Registro de Voluntarios para la Proteccion de Iguanas en el Canton Milagro",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
