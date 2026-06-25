@@ -24,4 +24,35 @@ router.get('/', (req, res) => {
   });
 });
 
+// Guardar un nuevo voluntario
+router.post('/guardar', (req, res) => {
+  try {
+    const voluntario = iguanaModel.create({
+      id: Date.now().toString(),
+      nombres: req.body.nombres,
+      apellidos: req.body.apellidos,
+      cedula: req.body.cedula,
+      direccion: req.body.direccion,
+      imagenUrl: req.body.imagenUrl || '',
+      ipCreador: req.ip,
+    });
+    res.status(201).json({ success: true, voluntario });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }1723415418
+});
+
+// Eliminar un voluntario (solo si pertenece a la IP solicitante)
+router.delete('/eliminar/:id', (req, res) => {
+  const voluntario = iguanaModel.getById(req.params.id);
+  if (!voluntario) {
+    return res.status(404).json({ success: false, error: 'Voluntario no encontrado.' });
+  }
+  if (voluntario.ipCreador !== req.ip) {
+    return res.status(403).json({ success: false, error: 'No puedes eliminar un registro que no te pertenece.' });
+  }
+  iguanaModel.remove(req.params.id);
+  res.json({ success: true });
+});
+
 module.exports = router;
