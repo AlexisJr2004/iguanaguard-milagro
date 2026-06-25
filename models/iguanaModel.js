@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'iguanas.json');
+const DEFAULT_IMAGE_URL = 'https://i.pinimg.com/736x/a6/d9/0c/a6d90c5d18a7f747daa98a818aced86d.jpg';
+const MAX_PER_IP = 3;
 
 // Valida una cedula ecuatoriana usando el algoritmo Modulo 10
 function validateCedula(value) {
@@ -66,9 +68,18 @@ function getById(id) {
   return data.find((v) => v.id === id) || null;
 }
 
+// Cuenta cuantos registros tiene una IP
+function countByIp(ip) {
+  const voluntarios = readData();
+  return voluntarios.filter((v) => v.ipCreador === ip).length;
+}
+
 // Crea un nuevo voluntario con los campos de la estructura base
 function create(data) {
   validateCedula(data.cedula);
+  if (countByIp(data.ipCreador) >= MAX_PER_IP) {
+    throw new Error(`Limite de ${MAX_PER_IP} registros por IP alcanzado.`);
+  }
   const voluntarios = readData();
   const nuevo = {
     id: data.id,
@@ -76,7 +87,7 @@ function create(data) {
     apellidos: data.apellidos,
     cedula: data.cedula,
     direccion: data.direccion,
-    imagenUrl: data.imagenUrl || '',
+    imagenUrl: data.imagenUrl || DEFAULT_IMAGE_URL,
     ipCreador: data.ipCreador,
     fechaRegistro: data.fechaRegistro || new Date().toISOString(),
   };
@@ -107,7 +118,10 @@ function remove(id) {
 
 module.exports = {
   VOLUNTARIO_FIELDS,
+  DEFAULT_IMAGE_URL,
+  MAX_PER_IP,
   validateCedula,
+  countByIp,
   getAll,
   getById,
   create,
