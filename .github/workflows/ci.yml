@@ -1,0 +1,28 @@
+name: CI – Iguanas Milagro
+
+on:
+  push:
+    branches: [ main, v1-basica, v2-avanzada ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar ESLint (análisis de sintaxis)
+        run: npm run lint
+
+      - name: Validar integridad de data.json
+        run: node -e "JSON.parse(require('fs').readFileSync('./data/iguanas.json'))"
