@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IguanaGuard Milagro</title>
+  <link rel="icon" type="image/x-icon" href="/image/icono.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jakarta: ["'Plus Jakarta Sans'", 'system-ui', 'sans-serif'] },
+          colors: {
+            forest: {
+              50: '#f2f7f4',
+              100: '#e0ece4',
+              200: '#c2d9cb',
+              300: '#96bea6',
+              400: '#639d7e',
+              500: '#3f7d5e',
+              600: '#2e634a',
+              700: '#254f3c',
+              800: '#1e3f30',
+              900: '#173428',
+              950: '#0c1f18',
+            },
+            gold: {
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #ffffff;
+      color: #173428;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(63, 125, 94, .25);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(63, 125, 94, .45);
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(63, 125, 94, .25) transparent;
+    }
+
+    ::selection {
+      background: rgba(63, 125, 94, .18);
+    }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #3f7d5e, #2e634a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glow-tr {
+      background: radial-gradient(ellipse at 60% 40%, rgba(63, 125, 94, .08), transparent 60%);
+    }
+
+    .glow-bl {
+      background: radial-gradient(ellipse at 40% 60%, rgba(37, 79, 60, .06), transparent 65%);
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(63, 125, 94, .12);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 8px 32px rgba(0, 0, 0, .06);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(63, 125, 94, .15);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 16px rgba(0, 0, 0, .04);
+      transition: all .3s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+      overflow: hidden;
+      color: #254f3c;
+    }
+
+    .btn-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(255, 255, 255, .8) 0%, rgba(255, 255, 255, .3) 40%, transparent 60%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .btn-glass::after {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -90%;
+      width: 55%;
+      height: 220%;
+      background: linear-gradient(100deg, transparent 20%, rgba(63, 125, 94, .06) 50%, transparent 80%);
+      transform: skewX(-18deg);
+      transition: left .55s cubic-bezier(.4, 0, .2, 1);
+      pointer-events: none;
+    }
+
+    .btn-glass:hover::after {
+      left: 140%;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, .92);
+      border-color: rgba(63, 125, 94, .25);
+      box-shadow: 0 4px 20px rgba(63, 125, 94, .12);
+      transform: translateY(-1px);
+    }
+
+    .btn-glass:active {
+      transform: translateY(0) scale(.97);
+    }
+
+    .btn-grad {
+      background: linear-gradient(105deg, #3f7d5e, #2e634a);
+      box-shadow: 0 8px 24px rgba(63, 125, 94, .25);
+      transition: box-shadow .2s, transform .15s;
+      color: #fff;
+    }
+
+    .btn-grad:hover {
+      box-shadow: 0 12px 32px rgba(63, 125, 94, .35);
+      transform: translateY(-1px);
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .volunteer-card {
+      animation: cardIn 0.35s ease forwards;
+    }
+
+    .card-trans {
+      transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), box-shadow 0.3s cubic-bezier(.4, 0, .2, 1), border-color 0.3s ease;
+    }
+
+    .card-trans:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+      border-color: rgba(63, 125, 94, .20) !important;
+    }
+
+    .modal-backdrop {
+      backdrop-filter: blur(8px) saturate(1.5);
+      -webkit-backdrop-filter: blur(8px) saturate(1.5);
+    }
+
+    .glass-stat {
+      background: rgba(255, 255, 255, .70);
+      border: 1px solid rgba(63, 125, 94, .12);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 16px rgba(0, 0, 0, .04);
+    }
+
+    .input-el {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border-radius: 0.75rem;
+      border: 1.5px solid rgba(63, 125, 94, .15);
+      background: #fafbfa;
+      color: #173428;
+      font-size: 0.875rem;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      outline: none;
+    }
+
+    .input-el:focus {
+      border-color: #3f7d5e;
+      box-shadow: 0 0 0 3px rgba(63, 125, 94, .12);
+      background: #fff;
+    }
+
+    .input-el::placeholder {
+      color: rgba(37, 79, 60, .30);
+    }
+
+    .input-el:disabled {
+      background: #f0f2f1;
+      color: rgba(37, 79, 60, .40);
+      cursor: not-allowed;
+    }
+
+    .badge-mine {
+      background: linear-gradient(135deg, #3f7d5e, #254f3c);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .img-overlay {
+      background: linear-gradient(to top, rgba(12, 31, 24, 0.65) 0%, rgba(12, 31, 24, 0.10) 50%, transparent 100%);
+    }
+
+    .dot-glow-green {
+      box-shadow: 0 0 8px rgba(52, 210, 127, .7);
+    }
+
+    .mac-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .pill-badge {
+      background: rgba(63, 125, 94, .08);
+      border: 1px solid rgba(63, 125, 94, .12);
+    }
+
+
+    /* List view mode */
+    .list-view .volunteer-card {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .list-view .volunteer-card .card-img-wrap {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    .list-view .volunteer-card .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .list-view .volunteer-card .card-img-wrap .card-fallback {
+      width: 100%;
+      height: 100%;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #3f7d5e;
+      background: linear-gradient(135deg, #e0ece4, #c2d9cb);
+    }
+
+    .list-view .volunteer-card .card-img-overlay,
+    .list-view .volunteer-card .badge-mine,
+    .list-view .volunteer-card .card-number,
+    .list-view .volunteer-card .card-name-overlay {
+      display: none !important;
+    }
+
+    .list-view .volunteer-card .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0;
+      border: none;
+    }
+
+    .list-view .volunteer-card .card-body .card-info {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .list-view .volunteer-card .card-body .card-info .card-name {
+      display: block;
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: #173428;
+      min-width: 160px;
+    }
+
+    .list-view .volunteer-card .card-body .card-info .card-cedula {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #639d7e;
+    }
+
+    .list-view .volunteer-card .card-body .card-info .card-sector {
+      display: block;
+      font-size: 0.75rem;
+      color: #2e634a;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .list-view .volunteer-card .card-body .card-info .card-fecha {
+      display: block;
+      font-size: 0.7rem;
+      color: #96bea6;
+      white-space: nowrap;
+    }
+
+    .list-view .volunteer-card .card-body .card-info>div:not(.card-name):not(.card-cedula):not(.card-sector):not(.card-fecha) {
+      display: none;
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap {
+      display: flex;
+      gap: 0.375rem;
+      flex-shrink: 0;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap button {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.7rem;
+      border-radius: 0.625rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap .btn-edit {
+      background: rgba(63, 125, 94, .08);
+      color: #2e634a;
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap .btn-edit:hover {
+      background: rgba(63, 125, 94, .15);
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap .btn-delete {
+      background: rgba(239, 68, 68, .08);
+      color: #dc2626;
+    }
+
+    .list-view .volunteer-card .card-body .card-actions-wrap .btn-delete:hover {
+      background: rgba(239, 68, 68, .15);
+    }
+
+    /* ══ DARK MODE — casi negro, verde apenas perceptible ════════ */
+    html.dark body {
+      background: #080808;
+      color: #d4d4d4;
+    }
+
+    /* Fondo decorativo */
+    html.dark .glow-tr {
+      background: radial-gradient(ellipse at 60% 40%, rgba(63, 125, 94, .12), transparent 60%);
+    }
+
+    html.dark .glow-bl {
+      background: radial-gradient(ellipse at 40% 60%, rgba(63, 125, 94, .08), transparent 65%);
+    }
+
+    /* Header pill */
+    html.dark .glass-pill {
+      background: rgba(10, 10, 10, .92);
+      border-color: rgba(255, 255, 255, .05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .45), 0 8px 32px rgba(0, 0, 0, .35);
+    }
+
+    /* Stats */
+    html.dark .glass-stat {
+      background: rgba(16, 16, 16, .85);
+      border-color: rgba(255, 255, 255, .05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .25), 0 4px 16px rgba(0, 0, 0, .22);
+    }
+
+    /* Botones glass */
+    html.dark .btn-glass {
+      background: rgba(14, 14, 14, .88);
+      border-color: rgba(255, 255, 255, .06);
+      color: #d4d4d4;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .25), 0 4px 16px rgba(0, 0, 0, .22);
+    }
+
+    html.dark .btn-glass::before {
+      background: linear-gradient(160deg, rgba(255, 255, 255, .015) 0%, transparent 60%);
+    }
+
+    html.dark .btn-glass:hover {
+      background: rgba(20, 20, 20, .94);
+      border-color: rgba(255, 255, 255, .09);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .40);
+    }
+
+    /* Inputs */
+    html.dark .input-el {
+      background: #1c1c1c;
+      color: #d4d4d4;
+      border-color: #1c1c1c;
+    }
+
+    html.dark .input-el:focus {
+      background: #202020;
+      border-color: rgba(63, 125, 94, .30);
+      box-shadow: 0 0 0 3px rgba(63, 125, 94, .08);
+    }
+
+    html.dark .input-el::placeholder {
+      color: rgba(212, 212, 212, .15);
+    }
+
+    html.dark .input-el:disabled {
+      background: #0a0a0a;
+      color: rgba(212, 212, 212, .20);
+    }
+
+    /* Cards */
+    html.dark .volunteer-card {
+      background: #111111 !important;
+      border-color: rgba(63, 125, 94, .20) !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .45), 0 6px 20px rgba(0, 0, 0, .35) !important;
+    }
+
+    html.dark .card-trans:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .60) !important;
+      border-color: rgba(63, 125, 94, .30) !important;
+    }
+
+    html.dark .card-number {
+      background: rgba(8, 8, 8, .92) !important;
+    }
+
+    html.dark .card-number span {
+      color: #888;
+    }
+
+    html.dark .card-fallback {
+      background: linear-gradient(135deg, #0e0e0e, #141414) !important;
+    }
+
+    html.dark .card-fallback span {
+      color: #555;
+    }
+
+    html.dark .card-actions-wrap {
+      border-color: rgba(63, 125, 94, .20) !important;
+    }
+
+    /* Form panel */
+    html.dark .form-panel>div {
+      background: #111111 !important;
+      border-color: rgba(255, 255, 255, .04) !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .45), 0 8px 24px rgba(0, 0, 0, .35) !important;
+    }
+
+
+    /* Footer */
+    html.dark footer {
+      background: rgba(8, 8, 8, .95) !important;
+      border-color: rgba(255, 255, 255, .04) !important;
+    }
+
+    /* Modal eliminar */
+    html.dark #deleteModal>div {
+      background: #111111 !important;
+    }
+
+    html.dark #deleteModal .bg-red-50 {
+      background: rgba(239, 68, 68, .06) !important;
+      border-color: rgba(239, 68, 68, .10) !important;
+    }
+
+    html.dark #deleteModal .bg-red-50 svg {
+      color: #b91c1c;
+    }
+
+    /* Error form */
+    html.dark #formError {
+      background: rgba(239, 68, 68, .06);
+      border-color: rgba(239, 68, 68, .10);
+      color: #fca5a5;
+    }
+
+    /* Botones editar / eliminar en cards */
+    html.dark .btn-edit {
+      background: rgba(255, 255, 255, .04) !important;
+      color: #aaa !important;
+    }
+
+    html.dark .btn-edit:hover {
+      background: rgba(255, 255, 255, .07) !important;
+    }
+
+    html.dark .btn-delete {
+      background: rgba(239, 68, 68, .06) !important;
+      color: #f87171 !important;
+    }
+
+    html.dark .btn-delete:hover {
+      background: rgba(239, 68, 68, .10) !important;
+    }
+
+    /* Pill badge "Programa de voluntariado" */
+    html.dark .pill-badge {
+      background: rgba(255, 255, 255, .03);
+      border-color: rgba(255, 255, 255, .06);
+    }
+
+    /* Toast */
+    html.dark #toastInner {
+      background: rgba(8, 8, 8, .97) !important;
+      border-color: rgba(255, 255, 255, .06) !important;
+      color: #d4d4d4 !important;
+    }
+
+    /* Scrollbar */
+    html.dark ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .08);
+    }
+
+    /* ── Colores de texto en dark ─────────────────────────────── */
+    html.dark .text-forest-950,
+    html.dark .text-forest-900 {
+      color: #e0e0e0 !important;
+    }
+
+    html.dark .text-forest-800 {
+      color: #ccc !important;
+    }
+
+    html.dark .text-forest-700 {
+      color: #aaa !important;
+    }
+
+    html.dark .text-forest-600 {
+      color: #999 !important;
+    }
+
+    html.dark .text-forest-500 {
+      color: #777 !important;
+    }
+
+    html.dark .text-forest-400 {
+      color: #555 !important;
+    }
+
+    html.dark .text-forest-300 {
+      color: #3a3a3a !important;
+    }
+
+    /* ── Fondos Tailwind en dark ──────────────────────────────── */
+    html.dark .bg-forest-50 {
+      background: rgba(14, 14, 14, .80) !important;
+    }
+
+    html.dark .bg-forest-100 {
+      background: rgba(18, 18, 18, .90) !important;
+    }
+
+    html.dark .border-forest-100 {
+      border-color: rgba(255, 255, 255, .04) !important;
+    }
+
+    html.dark .border-forest-200 {
+      border-color: rgba(255, 255, 255, .06) !important;
+    }
+
+    /* List view dark */
+    html.dark .list-view .volunteer-card .card-body .card-info .card-name {
+      color: #e0e0e0 !important;
+    }
+
+    html.dark .list-view .volunteer-card .card-body .card-info .card-cedula {
+      color: #999 !important;
+    }
+
+    html.dark .list-view .volunteer-card .card-body .card-info .card-sector {
+      color: #aaa !important;
+    }
+
+    html.dark .list-view .volunteer-card .card-body .card-info .card-fecha {
+      color: #555 !important;
+    }
+
+    /* ── Form dark green accents ──────────────────────────────── */
+    html.dark .form-panel>div {
+      border-color: rgba(63, 125, 94, .20) !important;
+    }
+
+    html.dark #resetFormBtn {
+      background: #1c1c1c !important;
+    }
+
+    html.dark #resetFormBtn:hover {
+      background: #242424 !important;
+    }
+
+    html.dark #resetFormBtn svg {
+      color: #5cad7e !important;
+    }
+
+    html.dark #resetFormBtn:hover svg {
+      color: #7dcea0 !important;
+    }
+
+    html.dark .form-panel label {
+      color: #5cad7e !important;
+    }
+
+    html.dark .glass-stat .text-forest-500 {
+      color: #5cad7e !important;
+    }
+
+    html.dark .form-panel label span {
+      color: #3f7d5e !important;
+    }
+
+    html.dark .form-panel p.text-forest-500 {
+      color: #5cad7e !important;
+    }
+
+    html.dark .input-el::placeholder {
+      color: rgba(63, 125, 94, .30) !important;
+    }
+
+    /* ── Card info dark green accents ─────────────────────────── */
+    html.dark .volunteer-card .card-info .text-forest-600,
+    html.dark .volunteer-card .card-info .text-forest-400 {
+      color: #5cad7e !important;
+    }
+
+    html.dark .volunteer-card .card-info .text-forest-500 {
+      color: #5cad7e !important;
+    }
+
+    html.dark .volunteer-card .card-info .bg-forest-50 {
+      background: #1c1c1c !important;
+    }
+
+    /* ── Ícono toggle ─────────────────────────────────────────── */
+    html.dark #iconMoon {
+      display: none;
+    }
+
+    html.dark #iconSun {
+      display: block;
+    }
+
+    #iconSun {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .list-view .volunteer-card .card-body {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .list-view .volunteer-card .card-body .card-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+
+      .list-view .volunteer-card .card-body .card-actions-wrap {
+        width: 100%;
+      }
+
+      .list-view .volunteer-card .card-body .card-actions-wrap button {
+        flex: 1;
+      }
+    }
+
+    /* Layout: form left, content right */
+    .main-layout {
+      display: flex;
+      gap: 1.5rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .form-panel {
+      width: 380px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 88px;
+      align-self: flex-start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+
+    .content-panel {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cards-scroll-area {
+      overflow-y: auto;
+      max-height: calc(100vh - 370px);
+      padding-right: 2px;
+      padding-bottom: 80px;
+    }
+
+    @media (max-width: 1023px) {
+      .main-layout {
+        flex-direction: column;
+      }
+
+      .form-panel {
+        width: 100%;
+        position: static;
+        max-height: none;
+      }
+
+      .cards-scroll-area {
+        max-height: none;
+        overflow-y: visible;
+        padding-right: 0;
+      }
+    }
+
+    /* ── SPLASH SCREEN ── */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    html.dark #splash-screen {
+      background: #080808;
+    }
+
+    #splash-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-inner {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .splash-emoji {
+      font-size: 44px;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .splash-ring {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .splash-ring-inner {
+      width: 76px;
+      height: 76px;
+      border: 3px solid transparent;
+      border-top-color: #3f7d5e;
+      border-right-color: #3f7d5e;
+      animation: splash-cw 0.9s linear infinite;
+    }
+
+    .splash-ring-outer {
+      width: 112px;
+      height: 112px;
+      border: 3px solid transparent;
+      border-bottom-color: #2e634a;
+      border-left-color: #2e634a;
+      animation: splash-ccw 1.2s linear infinite;
+    }
+
+    @keyframes splash-cw {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes splash-ccw {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen font-jakarta">
+
+  <!-- ── SPLASH SCREEN ── -->
+  <div id="splash-screen">
+    <div class="splash-inner">
+      <div class="splash-ring splash-ring-outer"></div>
+      <div class="splash-ring splash-ring-inner"></div>
+      <span class="splash-emoji">🦎</span>
+    </div>
+  </div>
+
+  <!-- Particles background -->
+  <div id="particles-js"></div>
+
+  <div class="glow-tr fixed top-[-10%] right-[-5%] w-[60%] h-[90%] pointer-events-none z-0"></div>
+  <div class="glow-bl fixed bottom-[-20%] left-[-10%] w-[50%] h-[70%] pointer-events-none z-0"></div>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-8 py-3">
+    <div class="glass-pill flex items-center justify-between w-full max-w-7xl mx-auto px-5 py-2.5 rounded-full">
+      <a href="/" class="flex items-center gap-2.5 select-none">
+        <div class="w-10 h-10 flex items-center justify-center overflow-hidden rounded-xl">
+          <img src="/image/image.png" alt="IguanaGuard" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-forest-900 font-bold text-[14px] tracking-tight">IguanaGuard</span>
+          <span class="text-forest-500 text-[9px] font-medium tracking-widest uppercase leading-relaxed">Cantón
+            Milagro</span>
+        </div>
+      </a>
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:flex items-center gap-1.5 text-xs text-forest-500 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+          Sistema activo
+        </span>
+        <!-- Dark mode toggle -->
+        <button id="darkToggle" onclick="toggleDark()" title="Cambiar modo"
+          class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+          style="background:rgba(63,125,94,.10);border:1px solid rgba(63,125,94,.18)">
+          <!-- Sun (shown in dark mode) -->
+          <svg id="iconSun" class="w-4 h-4" style="color:#f59e0b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon (shown in light mode) -->
+          <svg id="iconMoon" class="w-4 h-4 text-forest-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="h-[76px]"></div>
+
+  <!-- ═══════════ HERO MINI ═══════════ -->
+  <section class="relative z-[4] overflow-hidden pb-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-[9px] px-4 py-2 rounded-full pill-badge mb-3">
+            <span class="w-[7px] h-[7px] rounded-full bg-emerald-500 shrink-0 dot-glow-green"></span>
+            <span class="text-[11px] font-bold tracking-[1.5px] text-forest-600">PROGRAMA DE VOLUNTARIADO</span>
+          </div>
+          <h1 class="text-forest-950 font-bold leading-tight" style="font-size:clamp(22px,3vw,36px)">
+            Defensores de las <span class="gradient-text">Iguanas</span>
+          </h1>
+        </div>
+        <% var sectoresUnicos=[]; voluntarios.forEach(function(v) { var s=v.direccion.split(',')[0].trim(); if
+          (sectoresUnicos.indexOf(s)===-1) sectoresUnicos.push(s); }); %>
+          <div class="flex gap-2">
+            <div class="glass-stat rounded-xl px-4 py-3 flex items-center gap-3">
+              <div class="text-xl font-bold text-forest-900 leading-none">
+                <%= voluntarios.length %>
+              </div>
+              <div class="text-forest-500 text-[10px] font-medium leading-tight">Voluntarios</div>
+            </div>
+            <div class="glass-stat rounded-xl px-4 py-3 flex items-center gap-3">
+              <div class="text-xl font-bold text-forest-900 leading-none">
+                <%= sectoresUnicos.length %>
+              </div>
+              <div class="text-forest-500 text-[10px] font-medium leading-tight">Sectores</div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ MAIN LAYOUT: FORM LEFT | CONTENT RIGHT ═══════════ -->
+  <div class="main-layout relative z-[4]">
+
+    <!-- ─── LEFT: FORM PANEL ─── -->
+    <div class="form-panel">
+      <div class="bg-white rounded-2xl border border-forest-100 overflow-hidden"
+        style="box-shadow:0 1px 3px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05)">
+
+        <!-- Mac-style title bar -->
+        <div class="flex items-center gap-2 px-5 pt-4 pb-2">
+          <span class="mac-dot bg-[#ff5f57]"></span>
+          <span class="mac-dot bg-[#febc2e]"></span>
+          <span class="mac-dot bg-[#28c840]"></span>
+        </div>
+
+        <div class="px-5 pb-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 id="modalTitle" class="text-forest-900 font-bold text-lg tracking-tight">Registrar Voluntario</h2>
+              <p class="text-forest-500 text-[11px] mt-0.5">Completa todos los campos</p>
+            </div>
+            <button id="resetFormBtn" onclick="resetForm()" title="Limpiar formulario"
+              class="w-7 h-7 rounded-lg bg-forest-50 hover:bg-forest-100 flex items-center justify-center text-forest-400 hover:text-forest-700 transition cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <form id="voluntarioForm" class="px-5 pb-5 space-y-3.5">
+          <input type="hidden" id="editId" value="" />
+
+          <div>
+            <label class="block text-[10px] font-semibold text-forest-500 uppercase tracking-widest mb-1">Nombres
+              *</label>
+            <input type="text" id="fNombres" placeholder="Maria Elena" class="input-el" required />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-forest-500 uppercase tracking-widest mb-1">Apellidos
+              *</label>
+            <input type="text" id="fApellidos" placeholder="Garcia Lopez" class="input-el" required />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-forest-500 uppercase tracking-widest mb-1">Cedula
+              *</label>
+            <input type="text" id="fCedula" placeholder="0912345678" maxlength="10" class="input-el font-mono"
+              required />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-forest-500 uppercase tracking-widest mb-1">Sector /
+              Direccion *</label>
+            <input type="text" id="fDireccion" placeholder="Av. 17 de Septiembre, Milagro" class="input-el" required />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-forest-500 uppercase tracking-widest mb-1">
+              URL de Foto
+              <span class="text-forest-300 font-normal normal-case tracking-normal ml-1">(opcional)</span>
+            </label>
+            <input type="url" id="fImagenUrl" placeholder="https://i.imgur.com/ejemplo.jpg" class="input-el" />
+            <p class="mt-1 text-[10px] text-forest-400">Pega el enlace directo de una imagen. Si lo dejas vacío se usará
+              una imagen predeterminada.</p>
+          </div>
+
+          <div id="formError"
+            class="hidden bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-xs text-red-700 flex items-start gap-2">
+            <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd" />
+            </svg>
+            <span id="formErrorMsg"></span>
+          </div>
+
+          <div class="flex gap-2.5 pt-1">
+            <button type="button" onclick="resetForm()"
+              class="btn-glass flex-1 px-4 py-2.5 rounded-full text-xs font-semibold cursor-pointer text-center">
+              Cancelar
+            </button>
+            <button type="button" onclick="submitForm()" id="submitBtn"
+              class="btn-grad flex-1 flex items-center justify-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-full shadow-sm cursor-pointer">
+              <span id="submitLabel">Registrar</span>
+              <svg id="submitSpinner" class="hidden w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ─── RIGHT: CONTENT PANEL ─── -->
+    <div class="content-panel">
+
+      <!-- TOOLBAR -->
+      <div class="glass-pill rounded-2xl p-4 flex flex-col sm:flex-row gap-3 mb-6">
+        <div class="relative flex-1">
+          <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-forest-400 pointer-events-none"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <input type="text" id="searchInput" placeholder="Buscar por nombre o sector..." value="<%= searchTerm %>"
+            oninput="filterCards(this.value)" class="input-el pl-10" />
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button onclick="clearSearch()"
+            class="btn-glass px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap cursor-pointer">
+            Limpiar
+          </button>
+          <div class="flex rounded-full overflow-hidden glass-pill p-0.5 gap-0.5">
+            <button onclick="setView('grid')" id="btnGrid" title="Tarjetas"
+              class="px-3 py-2 rounded-full bg-forest-500 text-white transition cursor-pointer">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+            </button>
+            <button onclick="setView('list')" id="btnList" title="Lista"
+              class="px-3 py-2 rounded-full text-forest-400 hover:text-forest-700 hover:bg-forest-50 transition cursor-pointer">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results info -->
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-sm text-forest-500">
+          <span id="countLabel" class="font-semibold text-forest-900">
+            <%= voluntarios.length %>
+          </span>
+          voluntario(s)
+          <% if (searchTerm) { %>
+            &mdash; <span class="text-forest-600 font-medium">"<%= searchTerm %>"</span>
+            <% } %>
+        </p>
+      </div>
+
+      <!-- ── CARDS GRID ── -->
+      <div class="cards-scroll-area">
+        <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+
+          <% if (voluntarios.length===0) { %>
+            <div class="col-span-full">
+              <div class="flex flex-col items-center justify-center py-20 text-center">
+                <div
+                  class="w-20 h-20 rounded-2xl bg-forest-50 border border-forest-100 flex items-center justify-center mb-5">
+                  <span class="text-4xl">&#129422;</span>
+                </div>
+                <h3 class="text-forest-900 font-bold text-xl mb-2">Sin voluntarios registrados</h3>
+                <p class="text-forest-500 text-sm max-w-xs leading-relaxed mb-6">
+                  Conviertete en el primer guardian de las iguanas del canton Milagro.
+                </p>
+              </div>
+            </div>
+            <% } %>
+
+              <% voluntarios.forEach(function(v, idx) { var esMio=(v.ipCreador===userIp); var fecha=new
+                Date(v.fechaRegistro); var fechaStr=fecha.toLocaleDateString('es-EC', {day:'2-digit', month:'short',
+                year:'numeric'}); var cedulaMask=v.cedula.slice(0,3) + ' *** ' + v.cedula.slice(-3); var
+                initials=v.nombres.charAt(0) + v.apellidos.charAt(0); %>
+                <article
+                  class="volunteer-card card-trans rounded-[16px] overflow-hidden bg-white border border-forest-100"
+                  style="box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.04)" data-delay="<%= idx %>"
+                  data-nombre="<%= (v.nombres + ' ' + v.apellidos).toLowerCase() %>"
+                  data-sector="<%= v.direccion.toLowerCase() %>">
+                  <div class="card-img-wrap relative h-44 bg-forest-50 overflow-hidden">
+                    <img src="<%= v.imagenUrl %>" alt="<%= v.nombres %> <%= v.apellidos %>"
+                      class="w-full h-full object-cover"
+                      onerror="this.onerror=null; this.style.display='none'; this.parentElement.querySelector('.card-fallback').style.display='flex';" />
+                    <div
+                      class="card-fallback absolute inset-0 hidden items-center justify-center bg-gradient-to-br from-forest-100 to-forest-200">
+                      <span class="text-3xl font-bold text-forest-600 tracking-tight">
+                        <%= initials.toUpperCase() %>
+                      </span>
+                    </div>
+                    <div class="card-img-overlay img-overlay absolute inset-0"></div>
+                    <div
+                      class="card-number absolute top-3 left-3 w-7 h-7 rounded-lg bg-white/80 backdrop-blur flex items-center justify-center shadow-sm">
+                      <span class="text-forest-800 text-xs font-bold">#<%= idx + 1 %></span>
+                    </div>
+                    <% if (esMio) { %>
+                      <span class="badge-mine absolute top-3 right-3">Mi registro</span>
+                      <% } %>
+                        <div class="card-name-overlay absolute bottom-0 left-0 right-0 px-4 pb-3 pt-6">
+                          <h3 class="text-white font-bold text-sm leading-tight drop-shadow-sm">
+                            <%= v.nombres %>
+                              <%= v.apellidos %>
+                          </h3>
+                        </div>
+                  </div>
+                  <div class="card-body p-3.5">
+                    <div class="card-info space-y-1.5">
+                      <span class="card-name hidden">
+                        <%= v.nombres %>
+                          <%= v.apellidos %>
+                      </span>
+                      <span class="card-cedula hidden">
+                        <%= cedulaMask %>
+                      </span>
+                      <span class="card-sector hidden">
+                        <%= v.direccion %>
+                      </span>
+                      <span class="card-fecha hidden">
+                        <%= fechaStr %>
+                      </span>
+                      <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-forest-50 flex items-center justify-center flex-shrink-0">
+                          <svg class="w-3 h-3 text-forest-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0" />
+                          </svg>
+                        </div>
+                        <span class="text-forest-600 text-[11px] font-mono tracking-wider">
+                          <%= cedulaMask %>
+                        </span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <div
+                          class="w-6 h-6 rounded-lg bg-forest-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <svg class="w-3 h-3 text-forest-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </div>
+                        <span class="text-forest-600 text-[11px] leading-snug line-clamp-1">
+                          <%= v.direccion %>
+                        </span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-forest-50 flex items-center justify-center flex-shrink-0">
+                          <svg class="w-3 h-3 text-forest-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <span class="text-forest-400 text-[11px]">
+                          <%= fechaStr %>
+                        </span>
+                      </div>
+                    </div>
+                    <% if (esMio) { %>
+                      <div class="card-actions-wrap mt-3 pt-3 border-t border-forest-100 flex gap-1.5">
+                        <button
+                          class="btn-edit flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-forest-600 bg-forest-50 hover:bg-forest-100 rounded-xl py-2 transition cursor-pointer"
+                          data-id="<%= v.id %>" data-nombres="<%= v.nombres %>" data-apellidos="<%= v.apellidos %>"
+                          data-cedula="<%= v.cedula %>" data-direccion="<%= v.direccion %>"
+                          data-imagen="<%= v.imagenUrl %>">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                          Editar
+                        </button>
+                        <button
+                          class="btn-delete flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl py-2 transition cursor-pointer"
+                          data-id="<%= v.id %>" data-nombre="<%= v.nombres %> <%= v.apellidos %>">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                          Eliminar
+                        </button>
+                      </div>
+                      <% } %>
+                  </div>
+                </article>
+                <% }); %>
+        </div>
+
+        <!-- Empty search -->
+        <div id="emptySearch" class="hidden">
+          <div class="flex flex-col items-center justify-center py-16 text-center">
+            <div
+              class="w-14 h-14 rounded-xl bg-forest-50 border border-forest-100 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-forest-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+            </div>
+            <p class="text-forest-900 font-semibold mb-1">Sin resultados</p>
+            <p class="text-forest-500 text-sm mb-4">Ning&uacute;n voluntario coincide con tu b&uacute;squeda.</p>
+            <button onclick="clearSearch()"
+              class="text-forest-600 text-sm font-semibold hover:text-forest-800 transition underline underline-offset-2">
+              Limpiar b&uacute;squeda
+            </button>
+          </div>
+        </div>
+      </div><!-- /cards-scroll-area -->
+
+    </div>
+  </div>
+
+  <!-- ═══════════ FOOTER (fijo) ═══════════ -->
+  <footer class="fixed bottom-0 left-0 right-0 z-30 border-t border-forest-100"
+    style="background:rgba(255,255,255,.85);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%)">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 flex items-center justify-center overflow-hidden rounded-lg">
+          <img src="/image/image.png" alt="IguanaGuard" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-forest-600 text-xs font-medium">IguanaGuard Milagro</span>
+      </div>
+      <p class="text-forest-400 text-[10px]">&copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Sistema de Registro de
+          Voluntarios</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════ MODAL ELIMINAR ═══════════ -->
+  <div id="deleteModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop bg-forest-950/30 p-4">
+    <div class="rounded-3xl w-full max-w-sm p-7 text-center bg-white shadow-2xl"
+      style="box-shadow:0 25px 60px rgba(0,0,0,.15)">
+      <div class="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center mx-auto mb-5">
+        <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      </div>
+      <h3 class="font-bold text-forest-900 text-lg tracking-tight mb-1">Eliminar voluntario</h3>
+      <p class="text-forest-500 text-sm leading-relaxed mb-6">
+        Estas a punto de eliminar a
+        <span id="deleteName" class="font-semibold text-forest-800"></span>.
+        <br />Esta accion es permanente.
+      </p>
+      <div class="flex gap-3">
+        <button onclick="closeDeleteModal()"
+          class="btn-glass flex-1 px-5 py-2.5 rounded-full text-sm font-semibold cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="executeDelete()"
+          class="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition shadow-sm cursor-pointer">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TOAST ═══════════ -->
+  <div id="toast" class="fixed bottom-16 right-6 z-50 hidden">
+    <div id="toastInner"
+      class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl text-sm font-semibold min-w-[220px]"
+      style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid rgba(63,125,94,.15);color:#173428;box-shadow:0 8px 32px rgba(0,0,0,.10)">
+      <div id="toastIconWrap" class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
+        style="background:rgba(63,125,94,.10)">
+        <span id="toastIcon" class="text-sm text-forest-600">&#10003;</span>
+      </div>
+      <span id="toastMsg"></span>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCRIPTS ═══════════ -->
+  <script>
+    // ── DARK MODE ────────────────────────────────────────────────
+    function getParticleConfig(dark) {
+      return {
+        particles: {
+          number: { value: dark ? 30 : 50, density: { enable: true } },
+          color: { value: dark ? '#ffffff' : '#96bea6' },
+          shape: { type: 'circle' },
+          opacity: { value: dark ? 0.25 : 0.35, random: true },
+          size: { value: dark ? 2 : 2, random: true },
+          line_linked: {
+            enable: true, distance: 150,
+            color: dark ? '#ffffff' : '#c2d9cb',
+            opacity: dark ? 0.12 : 0.20, width: 1
+          },
+          move: { enable: true, speed: dark ? 0.6 : 0.8, direction: 'none', random: true, straight: false }
+        },
+        interactivity: {
+          events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: false, mode: 'push' } },
+          modes: { grab: { distance: 160, line_linked: { opacity: dark ? 0.18 : 0.30 } }, push: { particles_nb: 3 } }
+        }
+      };
+    }
+
+    function initParticles(dark) {
+      particlesJS('particles-js', getParticleConfig(dark));
+    }
+
+    function toggleDark() {
+      var isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('ig-theme', isDark ? 'dark' : 'light');
+      // Reinicializar partículas con colores del modo
+      if (window.pJSDom && window.pJSDom.length > 0) {
+        window.pJSDom[0].pJS.fn.vendors.destroypJS();
+        window.pJSDom = [];
+      }
+      initParticles(isDark);
+    }
+
+    // Aplicar tema guardado antes de renderizar
+    (function () {
+      var saved = localStorage.getItem('ig-theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+
+    // Inicializar partículas según el tema actual
+    var _isDark = document.documentElement.classList.contains('dark');
+    initParticles(_isDark);
+
+
+    // ── Splash screen: ocultar tras 1 segundo ──
+    (function () {
+      var splash = document.getElementById('splash-screen');
+      setTimeout(function () {
+        splash.classList.add('fade-out');
+        setTimeout(function () { splash.style.display = 'none'; }, 420);
+      }, 500);
+    })();
+
+    var deleteTargetId = null;
+
+    document.addEventListener('click', function (e) {
+      var editBtn = e.target.closest('.btn-edit');
+      if (editBtn) {
+        openEdit(
+          editBtn.dataset.id,
+          editBtn.dataset.nombres,
+          editBtn.dataset.apellidos,
+          editBtn.dataset.cedula,
+          editBtn.dataset.direccion,
+          editBtn.dataset.imagen
+        );
+        return;
+      }
+      var deleteBtn = e.target.closest('.btn-delete');
+      if (deleteBtn) {
+        confirmDelete(deleteBtn.dataset.id, deleteBtn.dataset.nombre);
+      }
+    });
+
+    function resetForm() {
+      document.getElementById('editId').value = '';
+      document.getElementById('voluntarioForm').reset();
+      document.getElementById('modalTitle').textContent = 'Registrar Voluntario';
+      document.getElementById('submitLabel').textContent = 'Registrar';
+      document.getElementById('fCedula').disabled = false;
+      document.getElementById('fCedula').classList.remove('opacity-60');
+      hideError();
+    }
+
+    function openEdit(id, nombres, apellidos, cedula, direccion, imagen) {
+      document.getElementById('editId').value = id;
+      document.getElementById('fNombres').value = nombres;
+      document.getElementById('fApellidos').value = apellidos;
+      document.getElementById('fCedula').value = cedula;
+      document.getElementById('fCedula').disabled = true;
+      document.getElementById('fCedula').classList.add('opacity-60');
+      document.getElementById('fDireccion').value = direccion;
+      document.getElementById('fImagenUrl').value = imagen || '';
+      document.getElementById('modalTitle').textContent = 'Editar Voluntario';
+      document.getElementById('submitLabel').textContent = 'Guardar cambios';
+      hideError();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function submitForm() {
+      var id = document.getElementById('editId').value;
+      var isEdit = !!id;
+
+      var body = {
+        nombres: document.getElementById('fNombres').value.trim(),
+        apellidos: document.getElementById('fApellidos').value.trim(),
+        cedula: document.getElementById('fCedula').value.trim(),
+        direccion: document.getElementById('fDireccion').value.trim(),
+        imagenUrl: document.getElementById('fImagenUrl').value.trim(),
+      };
+
+      setLoading(true);
+      hideError();
+
+      try {
+        var res = await fetch(isEdit ? '/editar/' + id : '/guardar', {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        var data = await res.json();
+
+        if (!res.ok || !data.success) {
+          showError(data.error || 'Ocurrio un error inesperado.');
+        } else {
+          resetForm();
+          showToast(isEdit ? 'Voluntario actualizado correctamente.' : 'Voluntario registrado con exito.', 'success');
+          setTimeout(function () { location.reload(); }, 1300);
+        }
+      } catch (err) {
+        showError('Error de conexion. Intenta nuevamente.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function confirmDelete(id, nombre) {
+      deleteTargetId = id;
+      document.getElementById('deleteName').textContent = nombre;
+      showModal('deleteModal');
+    }
+
+    function closeDeleteModal() { hideModal('deleteModal'); }
+
+    async function executeDelete() {
+      if (!deleteTargetId) return;
+      try {
+        var res = await fetch('/eliminar/' + deleteTargetId, { method: 'DELETE' });
+        var data = await res.json();
+        closeDeleteModal();
+        if (data.success) {
+          showToast('Voluntario eliminado.', 'info');
+          setTimeout(function () { location.reload(); }, 1300);
+        } else {
+          showToast(data.error || 'No se pudo eliminar.', 'error');
+        }
+      } catch (err) {
+        showToast('Error de conexion.', 'error');
+      }
+    }
+
+    function filterCards(term) {
+      var q = term.toLowerCase().trim();
+      var cards = document.querySelectorAll('.volunteer-card');
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var match = !q
+          || (card.dataset.nombre || '').indexOf(q) !== -1
+          || (card.dataset.sector || '').indexOf(q) !== -1;
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      document.getElementById('countLabel').textContent = visible;
+      var empty = document.getElementById('emptySearch');
+      empty.style.display = (visible === 0 && cards.length > 0) ? 'block' : 'none';
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      filterCards('');
+    }
+
+    function setView(view) {
+      var container = document.getElementById('cardsContainer');
+      var bGrid = document.getElementById('btnGrid');
+      var bList = document.getElementById('btnList');
+
+      if (view === 'grid') {
+        container.classList.remove('list-view');
+        container.className = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4';
+        bGrid.className = 'px-3 py-2 rounded-full bg-forest-500 text-white transition cursor-pointer';
+        bList.className = 'px-3 py-2 rounded-full text-forest-400 hover:text-forest-700 hover:bg-forest-50 transition cursor-pointer';
+      } else {
+        container.className = 'flex flex-col gap-3';
+        container.classList.add('list-view');
+        bList.className = 'px-3 py-2 rounded-full bg-forest-500 text-white transition cursor-pointer';
+        bGrid.className = 'px-3 py-2 rounded-full text-forest-400 hover:text-forest-700 hover:bg-forest-50 transition cursor-pointer';
+      }
+    }
+
+    function showModal(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideModal(id) {
+      var el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('formError');
+      document.getElementById('formErrorMsg').textContent = msg;
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function hideError() {
+      var el = document.getElementById('formError');
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    }
+
+    function setLoading(on) {
+      document.getElementById('submitBtn').disabled = on;
+      document.getElementById('submitSpinner').classList.toggle('hidden', !on);
+    }
+
+    function showToast(msg, type) {
+      var inner = document.getElementById('toastInner');
+      var borderColor = type === 'success'
+        ? 'rgba(63,125,94,.15)'
+        : type === 'error'
+          ? 'rgba(239,68,68,.20)'
+          : 'rgba(63,125,94,.15)';
+      var iconColor = type === 'error' ? '#ef4444' : '#3f7d5e';
+      inner.style.borderColor = borderColor;
+      document.getElementById('toastIconWrap').style.background = type === 'error' ? 'rgba(239,68,68,.10)' : 'rgba(63,125,94,.10)';
+      document.getElementById('toastIcon').style.color = iconColor;
+      document.getElementById('toastMsg').textContent = msg;
+      document.getElementById('toastIcon').textContent = type === 'error' ? '\u2715' : '\u2713';
+
+      var toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(function () { toast.classList.add('hidden'); }, 3200);
+    }
+
+    document.getElementById('deleteModal').addEventListener('click', function (e) {
+      if (e.target === this) closeDeleteModal();
+    });
+  </script>
+</body>
+
+</html>
