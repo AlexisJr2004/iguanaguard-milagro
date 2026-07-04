@@ -549,6 +549,26 @@
       color: #b91c1c;
     }
 
+    /* Modal cédula */
+    html.dark #cedulaModal>div {
+      background: #111111 !important;
+    }
+
+    html.dark #cedulaModal .bg-forest-50 {
+      background: rgba(255, 255, 255, .04) !important;
+      border-color: rgba(255, 255, 255, .06) !important;
+    }
+
+    html.dark #cedulaModal .bg-forest-50 svg {
+      color: #5cad7e;
+    }
+
+    html.dark #cedulaError {
+      background: rgba(239, 68, 68, .06);
+      border-color: rgba(239, 68, 68, .10);
+      color: #fca5a5;
+    }
+
     /* Error form */
     html.dark #formError {
       background: rgba(239, 68, 68, .06);
@@ -1166,7 +1186,7 @@
 
               <% voluntarios.forEach(function(v, idx) { var esMio=(v.ipCreador===userIp); var fecha=new
                 Date(v.fechaRegistro); var fechaStr=fecha.toLocaleDateString('es-EC', {day:'2-digit', month:'short',
-                year:'numeric'}); var cedulaFull=v.cedula; var
+                year:'numeric'}); var cedulaMask=v.cedula.slice(0,3) + ' *** ' + v.cedula.slice(-3); var
                 initials=v.nombres.charAt(0) + v.apellidos.charAt(0); %>
                 <article
                   class="volunteer-card card-trans rounded-[16px] overflow-hidden bg-white border border-forest-100"
@@ -1205,7 +1225,7 @@
                           <%= v.apellidos %>
                       </span>
                       <span class="card-cedula hidden">
-                        <%= cedulaFull %>
+                        <%= cedulaMask %>
                       </span>
                       <span class="card-sector hidden">
                         <%= v.direccion %>
@@ -1221,7 +1241,7 @@
                           </svg>
                         </div>
                         <span class="text-forest-600 text-[11px] font-mono tracking-wider">
-                          <%= cedulaFull %>
+                          <%= cedulaMask %>
                         </span>
                       </div>
                       <div class="flex items-center gap-2">
@@ -1265,7 +1285,8 @@
                         </button>
                         <button
                           class="btn-delete flex-1 flex items-center justify-center gap-1 text-[11px] font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl py-2 transition cursor-pointer"
-                          data-id="<%= v.id %>" data-nombre="<%= v.nombres %> <%= v.apellidos %>">
+                          data-id="<%= v.id %>" data-nombre="<%= v.nombres %> <%= v.apellidos %>"
+                          data-cedula="<%= v.cedula %>">
                           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -1343,6 +1364,47 @@
         <button onclick="executeDelete()"
           class="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition shadow-sm cursor-pointer">
           Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL CONFIRMAR CÉDULA ═══════════ -->
+  <div id="cedulaModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop bg-forest-950/30 p-4">
+    <div class="rounded-3xl w-full max-w-sm p-7 text-center bg-white shadow-2xl"
+      style="box-shadow:0 25px 60px rgba(0,0,0,.15)">
+      <div class="w-14 h-14 rounded-2xl bg-forest-50 border border-forest-100 flex items-center justify-center mx-auto mb-5">
+        <svg class="w-7 h-7 text-forest-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+            d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0" />
+        </svg>
+      </div>
+      <h3 class="font-bold text-forest-900 text-lg tracking-tight mb-1" id="cedulaModalTitle">Confirmar acción</h3>
+      <p class="text-forest-500 text-sm leading-relaxed mb-2">
+        Ingresa la cédula completa para continuar.
+      </p>
+      <p class="text-forest-400 text-xs font-mono mb-4" id="cedulaHint">Cédula:  *** </p>
+      <input type="text" id="cedulaConfirmInput" maxlength="10"
+        class="input-el text-center font-mono tracking-widest text-base mb-3" placeholder="0000000000"
+        oninput="this.value=this.value.replace(/\D/g,'')" />
+      <div id="cedulaError"
+        class="hidden bg-red-50 border border-red-200 rounded-xl px-4 py-2.5 text-xs text-red-700 flex items-start gap-2 mb-3">
+        <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd" />
+        </svg>
+        <span id="cedulaErrorMsg"></span>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeCedulaModal()"
+          class="btn-glass flex-1 px-5 py-2.5 rounded-full text-sm font-semibold cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmCedula()"
+          class="btn-grad flex-1 px-5 py-2.5 rounded-full text-sm font-semibold cursor-pointer">
+          Confirmar
         </button>
       </div>
     </div>
@@ -1455,22 +1517,32 @@
       showError('Has alcanzado el limite de ' + MAX_PER_IP + ' registros por IP. Solo puedes editar o eliminar.');
     }
 
+    var pendingAction = null;
+
     document.addEventListener('click', function (e) {
       var editBtn = e.target.closest('.btn-edit');
       if (editBtn) {
-        openEdit(
-          editBtn.dataset.id,
-          editBtn.dataset.nombres,
-          editBtn.dataset.apellidos,
-          editBtn.dataset.cedula,
-          editBtn.dataset.direccion,
-          editBtn.dataset.imagen
-        );
+        pendingAction = {
+          type: 'edit',
+          id: editBtn.dataset.id,
+          nombres: editBtn.dataset.nombres,
+          apellidos: editBtn.dataset.apellidos,
+          cedula: editBtn.dataset.cedula,
+          direccion: editBtn.dataset.direccion,
+          imagen: editBtn.dataset.imagen,
+        };
+        showCedulaModal(pendingAction.cedula, 'Ingresa tu cédula para editar');
         return;
       }
       var deleteBtn = e.target.closest('.btn-delete');
       if (deleteBtn) {
-        confirmDelete(deleteBtn.dataset.id, deleteBtn.dataset.nombre);
+        pendingAction = {
+          type: 'delete',
+          id: deleteBtn.dataset.id,
+          nombre: deleteBtn.dataset.nombre,
+          cedula: deleteBtn.dataset.cedula,
+        };
+        showCedulaModal(pendingAction.cedula, 'Ingresa tu cédula para eliminar');
       }
     });
 
@@ -1552,6 +1624,36 @@
     }
 
     function closeDeleteModal() { hideModal('deleteModal'); }
+
+    function showCedulaModal(cedula, title) {
+      document.getElementById('cedulaModalTitle').textContent = title || 'Confirmar acción';
+      document.getElementById('cedulaHint').textContent = 'Cédula: ' + cedula.slice(0, 3) + ' *** ' + cedula.slice(-3);
+      document.getElementById('cedulaConfirmInput').value = '';
+      document.getElementById('cedulaError').classList.add('hidden');
+      showModal('cedulaModal');
+      setTimeout(function () { document.getElementById('cedulaConfirmInput').focus(); }, 100);
+    }
+
+    function closeCedulaModal() {
+      hideModal('cedulaModal');
+      pendingAction = null;
+    }
+
+    function confirmCedula() {
+      var input = document.getElementById('cedulaConfirmInput').value.trim();
+      if (!input || input !== pendingAction.cedula) {
+        document.getElementById('cedulaErrorMsg').textContent = 'La cédula ingresada no coincide.';
+        document.getElementById('cedulaError').classList.remove('hidden');
+        return;
+      }
+      hideModal('cedulaModal');
+      if (pendingAction.type === 'edit') {
+        openEdit(pendingAction.id, pendingAction.nombres, pendingAction.apellidos, pendingAction.cedula, pendingAction.direccion, pendingAction.imagen);
+      } else if (pendingAction.type === 'delete') {
+        confirmDelete(pendingAction.id, pendingAction.nombre);
+      }
+      pendingAction = null;
+    }
 
     async function executeDelete() {
       if (!deleteTargetId) return;
@@ -1665,6 +1767,31 @@
 
     document.getElementById('deleteModal').addEventListener('click', function (e) {
       if (e.target === this) closeDeleteModal();
+    });
+
+    document.getElementById('cedulaModal').addEventListener('click', function (e) {
+      if (e.target === this) closeCedulaModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var cedulaModal = document.getElementById('cedulaModal');
+        var deleteModal = document.getElementById('deleteModal');
+        if (cedulaModal.classList.contains('flex')) closeCedulaModal();
+        else if (deleteModal.classList.contains('flex')) closeDeleteModal();
+      }
+      if (e.key === 'Enter') {
+        var target = e.target;
+        if (target.id === 'cedulaConfirmInput') {
+          e.preventDefault();
+          confirmCedula();
+          return;
+        }
+        if (target.closest('#voluntarioForm') && !e.shiftKey) {
+          e.preventDefault();
+          submitForm();
+        }
+      }
     });
   </script>
 </body>
