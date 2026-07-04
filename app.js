@@ -5,6 +5,9 @@ const routes = require('./routes/index');
 
 const app = express();
 
+// Confiar en el proxy de Render para obtener la IP real del cliente
+app.set('trust proxy', 1);
+
 // Motor de plantillas EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
