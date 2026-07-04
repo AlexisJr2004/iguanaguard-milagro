@@ -17,10 +17,14 @@ router.get('/', (req, res) => {
     );
   }
 
+  const userCount = iguanaModel.countByIp(req.ip);
+
   res.render('index', {
     voluntarios,
     searchTerm: search || '',
     userIp: req.ip,
+    userCount,
+    maxPerIp: iguanaModel.MAX_PER_IP,
   });
 });
 
