@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'iguanas.json');
-const DEFAULT_IMAGE_URL = 'https://i.pinimg.com/736x/a6/d9/0c/a6d90c5d18a7f747daa98a818aced86d.jpg';
+const DEFAULT_IMAGE_URL = '/image/default_user.webp';
 const MAX_PER_IP = 3;
 
 // Valida los campos del formulario (obligatorios, formato y limites)
