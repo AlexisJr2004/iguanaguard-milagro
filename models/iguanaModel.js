@@ -4,7 +4,7 @@ const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'iguanas.json');
 const DEFAULT_IMAGE_URL = '/image/default_user.webp';
-const MAX_PER_IP = 3;
+const MAX_PER_IP = 20;
 
 // Valida los campos del formulario (obligatorios, formato y limites)
 function validateFields(data) {
@@ -103,12 +103,15 @@ function create(data) {
     throw new Error(`Limite de ${MAX_PER_IP} registros por IP alcanzado.`);
   }
   const voluntarios = readData();
+  if (voluntarios.some((v) => v.cedula === data.cedula)) {
+    throw new Error('Ya existe un voluntario registrado con esta cédula.');
+  }
   const nuevo = {
     id: data.id,
-    nombres: data.nombres,
-    apellidos: data.apellidos,
+    nombres: data.nombres.toUpperCase(),
+    apellidos: data.apellidos.toUpperCase(),
     cedula: data.cedula,
-    direccion: data.direccion,
+    direccion: data.direccion.toUpperCase(),
     imagenUrl: data.imagenUrl || DEFAULT_IMAGE_URL,
     ipCreador: data.ipCreador,
     fechaRegistro: data.fechaRegistro || new Date().toISOString(),
@@ -123,6 +126,12 @@ function update(id, data) {
   const voluntarios = readData();
   const index = voluntarios.findIndex((v) => v.id === id);
   if (index === -1) return null;
+  if (data.cedula && voluntarios.some((v, i) => i !== index && v.cedula === data.cedula)) {
+    throw new Error('Ya existe un voluntario registrado con esta cédula.');
+  }
+  if (data.nombres) data.nombres = data.nombres.toUpperCase();
+  if (data.apellidos) data.apellidos = data.apellidos.toUpperCase();
+  if (data.direccion) data.direccion = data.direccion.toUpperCase();
   voluntarios[index] = { ...voluntarios[index], ...data };
   writeData(voluntarios);
   return voluntarios[index];

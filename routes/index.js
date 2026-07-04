@@ -62,6 +62,7 @@ router.put('/editar/:id', (req, res) => {
       return res.status(403).json({ success: false, error: 'No puedes editar un registro que no te pertenece.' });
     }
     iguanaModel.validateFields(req.body);
+    iguanaModel.validateCedula(req.body.cedula);
     const actualizado = iguanaModel.update(req.params.id, {
       nombres: req.body.nombres,
       apellidos: req.body.apellidos,
