@@ -3,6 +3,11 @@ const express = require('express');
 const router = express.Router();
 const iguanaModel = require('../models/iguanaModel');
 
+// Ruta de salud, usada por el ping externo para evitar que el servicio se duerma
+router.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 // Ruta principal - listar y buscar voluntarios
 router.get('/', (req, res) => {
   const { search } = req.query;
