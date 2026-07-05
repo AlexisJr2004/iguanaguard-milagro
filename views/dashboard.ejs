@@ -99,6 +99,36 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .05);
     }
 
+    .input-el {
+      width: 100%;
+      padding: 0.6rem 0.85rem;
+      border-radius: 0.75rem;
+      border: 1.5px solid rgba(63, 125, 94, .15);
+      background: #fafbfa;
+      color: #173428;
+      font-size: 0.8125rem;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      outline: none;
+    }
+
+    .input-el:focus {
+      border-color: #3f7d5e;
+      box-shadow: 0 0 0 3px rgba(63, 125, 94, .12);
+      background: #fff;
+    }
+
+    html.dark .input-el {
+      background: #1c1c1c;
+      color: #d4d4d4;
+      border-color: #1c1c1c;
+    }
+
+    html.dark .input-el:focus {
+      background: #202020;
+      border-color: rgba(63, 125, 94, .30);
+      box-shadow: 0 0 0 3px rgba(63, 125, 94, .08);
+    }
+
     /* ══ DARK MODE ══ */
     html.dark body { background: #080808; color: #d4d4d4; }
     html.dark .glow-tr { background: radial-gradient(ellipse at 60% 40%, rgba(63, 125, 94, .12), transparent 60%); }
@@ -170,11 +200,68 @@
 
     <div class="inline-flex items-center gap-[9px] px-4 py-2 rounded-full pill-badge mb-3">
       <span class="w-[7px] h-[7px] rounded-full bg-emerald-500 shrink-0"></span>
-      <span class="text-[11px] font-bold tracking-[1.5px] text-forest-600">MÓDULO DE ESTADÍSTICAS</span>
+      <span class="text-[11px] font-bold tracking-[1.5px] text-forest-600">Dashboard</span>
     </div>
     <h1 class="text-forest-950 font-bold leading-tight mb-6" style="font-size:clamp(22px,3vw,32px)">
       Panel de <span class="gradient-text">Reportes</span>
     </h1>
+
+    <!-- Filtros avanzados -->
+    <form method="GET" action="/dashboard" class="card-panel p-4 mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-forest-800 font-bold text-sm">Filtros avanzados</h2>
+        <% if (stats.filtrosActivos) { %>
+          <a href="/dashboard" class="text-xs text-forest-500 hover:text-forest-700 underline">Limpiar filtros</a>
+        <% } %>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div>
+          <label class="block text-[11px] font-semibold text-forest-500 uppercase mb-1">Desde</label>
+          <input type="date" name="fechaInicio" value="<%= filtros.fechaInicio %>" class="input-el" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-forest-500 uppercase mb-1">Hasta</label>
+          <input type="date" name="fechaFin" value="<%= filtros.fechaFin %>" class="input-el" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-forest-500 uppercase mb-1">Sector</label>
+          <select name="sector" class="input-el">
+            <option value="">Todos los sectores</option>
+            <% stats.sectoresDisponibles.forEach(function (s) { %>
+              <option value="<%= s %>" <%= filtros.sector === s ? 'selected' : '' %>><%= s %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-forest-500 uppercase mb-1">Cédula</label>
+          <input type="text" name="cedula" value="<%= filtros.cedula %>" placeholder="Ej. 0912345678" class="input-el" />
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="btn-glass w-full rounded-xl px-4 py-2.5 font-semibold text-sm">
+            Aplicar filtros
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-forest-100">
+        <span class="text-xs text-forest-500 font-medium self-center mr-1">Exportar reporte:</span>
+        <button type="submit" formaction="/dashboard/exportar/csv" formtarget="_self"
+          class="btn-glass rounded-lg px-3.5 py-1.5 text-xs font-semibold flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H8a2 2 0 01-2-2V5a2 2 0 012-2h6l6 6v11a2 2 0 01-2 2z" />
+          </svg>
+          CSV
+        </button>
+        <button type="submit" formaction="/dashboard/exportar/pdf" formtarget="_self"
+          class="btn-glass rounded-lg px-3.5 py-1.5 text-xs font-semibold flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H8a2 2 0 01-2-2V5a2 2 0 012-2h6l6 6v11a2 2 0 01-2 2z" />
+          </svg>
+          PDF
+        </button>
+      </div>
+    </form>
 
     <!-- Tarjetas resumen -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">

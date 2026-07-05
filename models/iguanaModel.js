@@ -147,9 +147,35 @@ function remove(id) {
   return true;
 }
 
+// Aplica filtros avanzados a la lista de voluntarios (fecha, sector, cédula)
+// Reutilizable por el dashboard, los reportes exportables y el mapa de calor.
+function applyFilters(voluntarios, filtros = {}) {
+  const { fechaInicio, fechaFin, sector, cedula } = filtros;
+  return voluntarios.filter((v) => {
+    if (fechaInicio) {
+      const fecha = (v.fechaRegistro || '').slice(0, 10);
+      if (fecha < fechaInicio) return false;
+    }
+    if (fechaFin) {
+      const fecha = (v.fechaRegistro || '').slice(0, 10);
+      if (fecha > fechaFin) return false;
+    }
+    if (sector) {
+      const sectorVoluntario = (v.direccion || '').split(',')[0].trim();
+      if (sectorVoluntario.toLowerCase() !== sector.toLowerCase()) return false;
+    }
+    if (cedula) {
+      if (!v.cedula || !v.cedula.includes(cedula.trim())) return false;
+    }
+    return true;
+  });
+}
+
 // Calcula las estadísticas para el dashboard (total, sector top, línea de tiempo)
-function getStats() {
-  const voluntarios = readData();
+// Acepta filtros opcionales: { fechaInicio, fechaFin, sector, cedula }
+function getStats(filtros = {}) {
+  const todos = readData();
+  const voluntarios = applyFilters(todos, filtros);
 
   const total = voluntarios.length;
 
@@ -179,6 +205,11 @@ function getStats() {
     .sort()
     .map((fecha) => ({ fecha, total: porFecha[fecha] }));
 
+  // Sectores disponibles en TODO el dataset (sin filtrar), para poblar el <select> del filtro
+  const sectoresDisponibles = [...new Set(
+    todos.map((v) => (v.direccion || '').split(',')[0].trim() || 'Sin sector')
+  )].sort((a, b) => a.localeCompare(b));
+
   return {
     total,
     sectorTop,
@@ -186,12 +217,21 @@ function getStats() {
       .map((sector) => ({ sector, total: porSector[sector] }))
       .sort((a, b) => b.total - a.total),
     timeline,
+    sectoresDisponibles,
+    filtrosActivos: !!(filtros.fechaInicio || filtros.fechaFin || filtros.sector || filtros.cedula),
   };
+}
+
+// Retorna los voluntarios que cumplen los filtros (para reportes exportables y mapa de calor)
+function getFiltered(filtros = {}) {
+  return applyFilters(readData(), filtros);
 }
 
 module.exports = {
   VOLUNTARIO_FIELDS,
   getStats,
+  applyFilters,
+  getFiltered,
   DEFAULT_IMAGE_URL,
   MAX_PER_IP,
   validateCedula,
