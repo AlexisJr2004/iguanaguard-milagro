@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · IguanaGuard Milagro</title>
+  <link rel="icon" type="image/x-icon" href="/image/icono.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jakarta: ["'Plus Jakarta Sans'", 'system-ui', 'sans-serif'] },
+          colors: {
+            forest: {
+              50: '#f2f7f4', 100: '#e0ece4', 200: '#c2d9cb', 300: '#96bea6',
+              400: '#639d7e', 500: '#3f7d5e', 600: '#2e634a', 700: '#254f3c',
+              800: '#1e3f30', 900: '#173428', 950: '#0c1f18',
+            },
+            gold: { 300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b' }
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #ffffff;
+      color: #173428;
+      padding-bottom: 4rem;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1023px) { body { padding-bottom: 3rem; } }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(63, 125, 94, .25); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(63, 125, 94, .45); }
+    * { scrollbar-width: thin; scrollbar-color: rgba(63, 125, 94, .25) transparent; }
+    ::selection { background: rgba(63, 125, 94, .18); }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #3f7d5e, #2e634a);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .glow-tr { background: radial-gradient(ellipse at 60% 40%, rgba(63, 125, 94, .08), transparent 60%); }
+    .glow-bl { background: radial-gradient(ellipse at 40% 60%, rgba(37, 79, 60, .06), transparent 65%); }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(63, 125, 94, .12);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 8px 32px rgba(0, 0, 0, .06);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(63, 125, 94, .15);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 16px rgba(0, 0, 0, .04);
+      transition: all .3s cubic-bezier(.4, 0, .2, 1);
+      color: #254f3c;
+    }
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, .92);
+      border-color: rgba(63, 125, 94, .25);
+      box-shadow: 0 4px 20px rgba(63, 125, 94, .12);
+      transform: translateY(-1px);
+    }
+
+    .glass-stat {
+      background: rgba(255, 255, 255, .70);
+      border: 1px solid rgba(63, 125, 94, .12);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 16px rgba(0, 0, 0, .04);
+    }
+
+    .pill-badge { background: rgba(63, 125, 94, .08); border: 1px solid rgba(63, 125, 94, .12); }
+
+    .card-panel {
+      background: #fff;
+      border: 1px solid rgba(63, 125, 94, .12);
+      border-radius: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .05);
+    }
+
+    /* ══ DARK MODE ══ */
+    html.dark body { background: #080808; color: #d4d4d4; }
+    html.dark .glow-tr { background: radial-gradient(ellipse at 60% 40%, rgba(63, 125, 94, .12), transparent 60%); }
+    html.dark .glow-bl { background: radial-gradient(ellipse at 40% 60%, rgba(63, 125, 94, .08), transparent 65%); }
+    html.dark .glass-pill { background: rgba(10, 10, 10, .92); border-color: rgba(255, 255, 255, .05); box-shadow: 0 1px 3px rgba(0,0,0,.45), 0 8px 32px rgba(0,0,0,.35); }
+    html.dark .glass-stat { background: rgba(16, 16, 16, .85); border-color: rgba(255, 255, 255, .05); box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 4px 16px rgba(0,0,0,.22); }
+    html.dark .btn-glass { background: rgba(14, 14, 14, .88); border-color: rgba(255, 255, 255, .06); color: #d4d4d4; }
+    html.dark .btn-glass:hover { background: rgba(20, 20, 20, .94); border-color: rgba(255, 255, 255, .09); }
+    html.dark .card-panel { background: #111111; border-color: rgba(255, 255, 255, .05); box-shadow: 0 1px 4px rgba(0,0,0,.45), 0 8px 24px rgba(0,0,0,.35); }
+    html.dark footer { background: rgba(8, 8, 8, .95) !important; border-color: rgba(255, 255, 255, .04) !important; }
+    html.dark .text-forest-950, html.dark .text-forest-900 { color: #e0e0e0 !important; }
+    html.dark .text-forest-700 { color: #aaa !important; }
+    html.dark .text-forest-600 { color: #999 !important; }
+    html.dark .text-forest-500 { color: #777 !important; }
+    html.dark .text-forest-400 { color: #555 !important; }
+    html.dark .border-forest-100 { border-color: rgba(255, 255, 255, .04) !important; }
+    html.dark #iconMoon { display: none; }
+    html.dark #iconSun { display: block; }
+    #iconSun { display: none; }
+  </style>
+</head>
+
+<body class="min-h-screen font-jakarta">
+
+  <div class="glow-tr fixed top-[-10%] right-[-5%] w-[60%] h-[90%] pointer-events-none z-0"></div>
+  <div class="glow-bl fixed bottom-[-20%] left-[-10%] w-[50%] h-[70%] pointer-events-none z-0"></div>
+
+  <!-- ═══════════ HEADER (reutilizado) ═══════════ -->
+  <header class="fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-8 py-3">
+    <div class="glass-pill flex items-center justify-between w-full max-w-7xl mx-auto px-5 py-2.5 rounded-full">
+      <a href="/" class="flex items-center gap-2.5 select-none">
+        <div class="w-10 h-10 flex items-center justify-center overflow-hidden rounded-xl">
+          <img src="/image/image.png" alt="IguanaGuard" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-forest-900 font-bold text-[14px] tracking-tight">IguanaGuard</span>
+          <span class="text-forest-500 text-[9px] font-medium tracking-widest uppercase leading-relaxed">Cantón
+            Milagro</span>
+        </div>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="/"
+          class="hidden sm:flex items-center gap-1.5 text-xs text-forest-600 font-semibold px-3 py-1.5 rounded-full hover:bg-forest-50 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Volver
+        </a>
+        <button id="darkToggle" onclick="toggleDark()" title="Cambiar modo"
+          class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+          style="background:rgba(63,125,94,.10);border:1px solid rgba(63,125,94,.18)">
+          <svg id="iconSun" class="w-4 h-4" style="color:#f59e0b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg id="iconMoon" class="w-4 h-4 text-forest-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="h-[76px]"></div>
+
+  <!-- ═══════════ CONTENIDO DASHBOARD ═══════════ -->
+  <main class="relative z-[4] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <div class="inline-flex items-center gap-[9px] px-4 py-2 rounded-full pill-badge mb-3">
+      <span class="w-[7px] h-[7px] rounded-full bg-emerald-500 shrink-0"></span>
+      <span class="text-[11px] font-bold tracking-[1.5px] text-forest-600">MÓDULO DE ESTADÍSTICAS</span>
+    </div>
+    <h1 class="text-forest-950 font-bold leading-tight mb-6" style="font-size:clamp(22px,3vw,32px)">
+      Panel de <span class="gradient-text">Reportes</span>
+    </h1>
+
+    <!-- Tarjetas resumen -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="card-panel p-5">
+        <div class="text-forest-500 text-xs font-semibold uppercase tracking-wide mb-1">Total de voluntarios</div>
+        <div class="text-3xl font-bold text-forest-900"><%= stats.total %></div>
+      </div>
+      <div class="card-panel p-5">
+        <div class="text-forest-500 text-xs font-semibold uppercase tracking-wide mb-1">Sector con más registros</div>
+        <% if (stats.sectorTop) { %>
+          <div class="text-2xl font-bold text-forest-900 truncate" title="<%= stats.sectorTop.sector %>"><%= stats.sectorTop.sector %></div>
+          <div class="text-forest-500 text-xs mt-0.5"><%= stats.sectorTop.total %> voluntario<%= stats.sectorTop.total === 1 ? '' : 's' %></div>
+        <% } else { %>
+          <div class="text-forest-400 text-sm">Sin datos aún</div>
+        <% } %>
+      </div>
+      <div class="card-panel p-5">
+        <div class="text-forest-500 text-xs font-semibold uppercase tracking-wide mb-1">Sectores registrados</div>
+        <div class="text-3xl font-bold text-forest-900"><%= stats.sectores.length %></div>
+      </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card-panel p-5">
+        <h2 class="text-forest-800 font-bold text-sm mb-3">Registros por fecha</h2>
+        <% if (stats.timeline.length > 0) { %>
+          <canvas id="timelineChart" height="220"></canvas>
+        <% } else { %>
+          <p class="text-forest-400 text-sm py-10 text-center">Aún no hay registros para graficar.</p>
+        <% } %>
+      </div>
+      <div class="card-panel p-5">
+        <h2 class="text-forest-800 font-bold text-sm mb-3">Voluntarios por sector</h2>
+        <% if (stats.sectores.length > 0) { %>
+          <canvas id="sectorChart" height="220"></canvas>
+        <% } else { %>
+          <p class="text-forest-400 text-sm py-10 text-center">Aún no hay registros para graficar.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════ FOOTER (reutilizado) ═══════════ -->
+  <footer class="fixed bottom-0 left-0 right-0 z-30 border-t border-forest-100"
+    style="background:rgba(255,255,255,.85);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 flex items-center justify-center overflow-hidden rounded-lg">
+          <img src="/image/image.png" alt="IguanaGuard" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-forest-600 text-xs font-medium">IguanaGuard Milagro</span>
+      </div>
+      <p class="text-forest-400 text-[10px]">&copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Sistema de Registro de
+          Voluntarios</p>
+    </div>
+  </footer>
+
+  <script>
+    // Aplicar tema guardado (mismo esquema que la página principal)
+    (function () {
+      var saved = localStorage.getItem('ig-theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+
+    function toggleDark() {
+      var isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('ig-theme', isDark ? 'dark' : 'light');
+      updateChartColors();
+    }
+
+    var STATS = <%- JSON.stringify(stats) %>;
+    var isDarkNow = document.documentElement.classList.contains('dark');
+    var gridColor = isDarkNow ? 'rgba(255,255,255,.06)' : 'rgba(63,125,94,.08)';
+    var textColor = isDarkNow ? '#999' : '#639d7e';
+
+    var timelineChart, sectorChart;
+
+    if (STATS.timeline.length > 0) {
+      var ctxLine = document.getElementById('timelineChart').getContext('2d');
+      timelineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+          labels: STATS.timeline.map(function (d) { return d.fecha; }),
+          datasets: [{
+            label: 'Registros',
+            data: STATS.timeline.map(function (d) { return d.total; }),
+            borderColor: '#3f7d5e',
+            backgroundColor: 'rgba(63,125,94,.15)',
+            tension: 0.35,
+            fill: true,
+            pointRadius: 3,
+            pointBackgroundColor: '#2e634a',
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: textColor }, grid: { color: gridColor } }
+          }
+        }
+      });
+    }
+
+    if (STATS.sectores.length > 0) {
+      var ctxBar = document.getElementById('sectorChart').getContext('2d');
+      sectorChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: STATS.sectores.map(function (d) { return d.sector; }),
+          datasets: [{
+            label: 'Voluntarios',
+            data: STATS.sectores.map(function (d) { return d.total; }),
+            backgroundColor: '#3f7d5e',
+            borderRadius: 6,
+            maxBarThickness: 40,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { display: false } },
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: textColor }, grid: { color: gridColor } }
+          }
+        }
+      });
+    }
+
+    function updateChartColors() {
+      var dark = document.documentElement.classList.contains('dark');
+      var grid = dark ? 'rgba(255,255,255,.06)' : 'rgba(63,125,94,.08)';
+      var text = dark ? '#999' : '#639d7e';
+      [timelineChart, sectorChart].forEach(function (chart) {
+        if (!chart) return;
+        chart.options.scales.x.ticks.color = text;
+        chart.options.scales.y.ticks.color = text;
+        if (chart.options.scales.x.grid) chart.options.scales.x.grid.color = grid;
+        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = grid;
+        chart.update();
+      });
+    }
+  </script>
+</body>
+
+</html>

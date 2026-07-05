@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "1783281949405",
+    "nombres": "RANDY",
+    "apellidos": "MEDINA",
+    "cedula": "1729110401",
+    "direccion": "EL RECREO 5TA ETAPA MANZANA 573",
+    "imagenUrl": "/image/default_user.webp",
+    "ipCreador": "::1",
+    "fechaRegistro": "2026-07-05T20:05:49.408Z"
+  },
+  {
+    "id": "1783282016722",
+    "nombres": "AARÓN",
+    "apellidos": "MEDINA",
+    "cedula": "0962577938",
+    "direccion": "EL RECREO 5TA ETAPA MANZANA 573",
+    "imagenUrl": "/image/default_user.webp",
+    "ipCreador": "::1",
+    "fechaRegistro": "2026-07-05T20:06:56.726Z"
+  }
+]

@@ -147,8 +147,51 @@ function remove(id) {
   return true;
 }
 
+// Calcula las estadísticas para el dashboard (total, sector top, línea de tiempo)
+function getStats() {
+  const voluntarios = readData();
+
+  const total = voluntarios.length;
+
+  // Sector = primer segmento de la dirección (antes de la primera coma), igual que en index.ejs
+  const porSector = {};
+  voluntarios.forEach((v) => {
+    const sector = (v.direccion || '').split(',')[0].trim() || 'Sin sector';
+    porSector[sector] = (porSector[sector] || 0) + 1;
+  });
+
+  let sectorTop = null;
+  Object.keys(porSector).forEach((sector) => {
+    if (!sectorTop || porSector[sector] > sectorTop.total) {
+      sectorTop = { sector, total: porSector[sector] };
+    }
+  });
+
+  // Registros por fecha (día), ordenados cronológicamente
+  const porFecha = {};
+  voluntarios.forEach((v) => {
+    const fecha = (v.fechaRegistro || '').slice(0, 10); // YYYY-MM-DD
+    if (!fecha) return;
+    porFecha[fecha] = (porFecha[fecha] || 0) + 1;
+  });
+
+  const timeline = Object.keys(porFecha)
+    .sort()
+    .map((fecha) => ({ fecha, total: porFecha[fecha] }));
+
+  return {
+    total,
+    sectorTop,
+    sectores: Object.keys(porSector)
+      .map((sector) => ({ sector, total: porSector[sector] }))
+      .sort((a, b) => b.total - a.total),
+    timeline,
+  };
+}
+
 module.exports = {
   VOLUNTARIO_FIELDS,
+  getStats,
   DEFAULT_IMAGE_URL,
   MAX_PER_IP,
   validateCedula,

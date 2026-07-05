@@ -33,6 +33,12 @@ router.get('/', (req, res) => {
   });
 });
 
+// Ruta del dashboard de estadísticas (Versión 2)
+router.get('/dashboard', (req, res) => {
+  const stats = iguanaModel.getStats();
+  res.render('dashboard', { stats });
+});
+
 // Guardar un nuevo voluntario
 router.post('/guardar', (req, res) => {
   try {
