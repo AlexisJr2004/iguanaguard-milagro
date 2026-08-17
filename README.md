@@ -2,6 +2,8 @@
 
 Sistema de Registro de Voluntarios para la Protección de Iguanas en el Cantón Milagro.
 
+![Vista principal](public/image/home.png)
+
 ## Stack
 
 - **Runtime:** Node.js
